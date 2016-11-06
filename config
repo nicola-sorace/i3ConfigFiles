@@ -7,8 +7,8 @@ font pango: Roboto 12
 # thin borders
 hide_edge_borders both
 
-new_window pixel 10
-#gaps inner 10
+new_window pixel 12
+gaps inner 10
 smart_gaps on
 
 
@@ -118,21 +118,25 @@ mode "resize" {
 # resize mode
 bindsym $mod+r mode "resize"
 
-set $bg-color 	         #2f343f
-set $inactive-bg-color   #2f343f
+set $bg-color 	         #2f343fee
+set $inactive-bg-color   #2f343fee
 set $text-color          #f3f4f5
 set $inactive-text-color #676E7D
 set $urgent-bg-color     #E53935
 
+#bb <- Good transparency (disabled because of black borders on GTK windows)
 set $boract              #268bd2
+#50
 set $boroff              #2f343f
+#90
+set $indcol              #f3f4f5
 
 # window colors
 #                       border              background         text                 indicator
-client.focused          $boract             $boract            $text-color          #00ff00
-client.unfocused        $boroff	            $boroff            $inactive-text-color #00ff00
-client.focused_inactive $boroff             $boroff            $inactive-text-color #00ff00
-client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+client.focused          $boract             $boract            $text-color          $indcol
+client.unfocused        $boroff	            $boroff            $inactive-text-color $indcol
+client.focused_inactive $boroff             $boroff            $inactive-text-color $indcol
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          $indcol
 
 # bar
 bar {
@@ -142,6 +146,7 @@ bar {
 	tray_padding 5
 	font pango: Roboto 12
   	status_command i3blocks -c "/home/nicola/.config/i3/i3blocks.conf"
+	i3bar_command i3bar -t
   	#status_command i3status
 	colors {
 		background $bg-color
@@ -187,8 +192,13 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec rofi -show run -lines 5 -width 100 -padding 300 -fullscreen -opacity "85" -font "Roboto 50" -separator-style "none"
 #bindsym $mod+d exec dmenu_run
 
+bindsym Control+Mod1+Down exec xrandr --output eDP-1 --rotate normal
+bindsym Control+Mod1+Up exec xrandr --output eDP-1 --rotate inverted
+bindsym Control+Mod1+Left exec xrandr --output eDP-1 --rotate right
+bindsym Control+Mod1+Right exec xrandr --output eDP-1 --rotate left
+
 # startup
-exec_always --no-startup-id feh --bg-fill "/home/nicola/Documents/wallpapers/eyeball.png"
+exec_always --no-startup-id feh --bg-fill "/home/nicola/Documents/wallpapers/rocket.png"
 exec --no-startup-id compton --config "/home/nicola/.config/compton.conf"
 exec --no-startup-id dunst -conf "/home/nicola/.config/dunstrc"
 exec --no-startup-id nm-applet
